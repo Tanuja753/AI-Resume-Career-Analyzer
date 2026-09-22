@@ -4,6 +4,7 @@ from sqlalchemy import Boolean, DateTime, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.database.base import Base
+from app.core.datetime import utc_now
 
 
 class User(Base):
@@ -39,17 +40,18 @@ class User(Base):
 
     created_at: Mapped[datetime] = mapped_column(
         DateTime,
-        default=datetime.utcnow,
+        default=utc_now,
         nullable=False
     )
 
     resumes = relationship(
-    "Resume",
-    back_populates="user",
-    cascade="all, delete-orphan",
+        "Resume",
+        back_populates="user",
+        cascade="all, delete-orphan",
     )
 
     job_descriptions = relationship(
-    "JobDescription",
-    cascade="all, delete-orphan",
+        "JobDescription",
+        back_populates="user",
+        cascade="all, delete-orphan",
     )

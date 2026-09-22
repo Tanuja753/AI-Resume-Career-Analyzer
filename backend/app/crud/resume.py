@@ -1,5 +1,5 @@
 from datetime import datetime
-
+from app.core.datetime import utc_now
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
@@ -71,7 +71,7 @@ def update_resume_extraction(
 ) -> Resume:
 
     resume.extracted_text = extracted_text
-    resume.extracted_at = datetime.utcnow()
+    resume.extracted_at = utc_now()
     resume.status = "extracted"
 
     db.commit()
@@ -86,7 +86,7 @@ def update_structured_resume(
 ) -> Resume:
 
     resume.structured_data = structured_data
-    resume.structured_at = datetime.utcnow()
+    resume.structured_at = utc_now()
     resume.status = "structured"
 
     db.commit()

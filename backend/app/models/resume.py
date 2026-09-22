@@ -5,6 +5,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy.dialects.postgresql import JSONB
 
 from app.database.base import Base
+from app.core.datetime import utc_now
 
 
 class Resume(Base):
@@ -62,19 +63,20 @@ class Resume(Base):
         DateTime,
         nullable=True,
     )
+
     structured_data: Mapped[dict | None] = mapped_column(
-    JSONB,
-    nullable=True,
+        JSONB,
+        nullable=True,
     )
 
     structured_at: Mapped[datetime | None] = mapped_column(
-    DateTime,
-    nullable=True,
+        DateTime,
+        nullable=True,
     )
 
     uploaded_at: Mapped[datetime] = mapped_column(
         DateTime,
-        default=datetime.utcnow,
+        default=utc_now,
         nullable=False,
     )
 
@@ -84,7 +86,7 @@ class Resume(Base):
     )
 
     resume_skills = relationship(
-    "ResumeSkill",
-    back_populates="resume",
-    cascade="all, delete-orphan",
+        "ResumeSkill",
+        back_populates="resume",
+        cascade="all, delete-orphan",
     )

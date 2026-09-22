@@ -5,6 +5,7 @@ from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.database.base import Base
+from app.core.datetime import utc_now
 
 
 class JobDescription(Base):
@@ -55,7 +56,7 @@ class JobDescription(Base):
 
     created_at: Mapped[datetime] = mapped_column(
         DateTime,
-        default=datetime.utcnow,
+        default=utc_now,
         nullable=False,
     )
 
@@ -66,6 +67,7 @@ class JobDescription(Base):
 
     user = relationship(
         "User",
+        back_populates="job_descriptions",
     )
 
     resume = relationship(
@@ -73,7 +75,7 @@ class JobDescription(Base):
     )
 
     job_description_skills = relationship(
-    "JobDescriptionSkill",
-    back_populates="job_description",
-    cascade="all, delete-orphan",
+        "JobDescriptionSkill",
+        back_populates="job_description",
+        cascade="all, delete-orphan",
     )

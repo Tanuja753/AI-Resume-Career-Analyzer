@@ -1,5 +1,5 @@
 from datetime import datetime
-
+from app.core.datetime import utc_now
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
@@ -56,8 +56,7 @@ def update_job_description_processing(
     job_description.cleaned_description = cleaned_description
     job_description.structured_data = structured_data
     job_description.status = "processed"
-    job_description.processed_at = datetime.utcnow()
-
+    job_description.processed_at = utc_now()
     db.commit()
     db.refresh(job_description)
 

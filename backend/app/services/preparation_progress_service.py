@@ -1,5 +1,5 @@
 from datetime import datetime
-
+from app.core.datetime import utc_now
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
@@ -32,7 +32,7 @@ def update_preparation_progress(
         if progress is not None and progress.completed_at is not None:
             completed_at = progress.completed_at
         else:
-            completed_at = datetime.utcnow()
+            completed_at = utc_now()
 
     if progress is None:
         progress = create_progress(
