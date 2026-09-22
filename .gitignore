@@ -1,0 +1,27 @@
+# Python
+venv/
+__pycache__/
+*.pyc
+
+# Environment variables
+.env
+
+# Uploaded resumes
+uploads/*
+
+# Generated resumes
+generated_resumes/*
+
+# Node.js
+node_modules/
+dist/
+
+# IDE
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
+
+!uploads/.gitkeep
+!generated_resumes/.gitkeep
