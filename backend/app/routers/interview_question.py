@@ -22,6 +22,9 @@ from app.schemas.interview_question import (
 from app.services.interview_question_service import (
     generate_interview_questions,
 )
+from app.services.ollama_service import (
+    OllamaUnavailableError,
+)
 
 
 router = APIRouter(
@@ -173,6 +176,15 @@ def generate_questions(
             )
         )
 
+    except OllamaUnavailableError as exc:
+
+        db.rollback()
+
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail=str(exc),
+        )
+
     except ValueError as exc:
 
         db.rollback()
@@ -206,6 +218,7 @@ def generate_questions(
         ],
     }
 
+
 @router.get(
     "/resume/{resume_id}/job-description/{job_description_id}/count"
 )
@@ -215,6 +228,7 @@ def get_interview_question_count(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
+
     # ---------------------------------------------------------
     # RESUME OWNERSHIP
     # ---------------------------------------------------------
@@ -267,6 +281,7 @@ def get_interview_question_count(
         "question_count": question_count or 0,
     }
 
+
 @router.get(
     "/resume/{resume_id}/job-description/{job_description_id}"
 )
@@ -276,6 +291,7 @@ def get_interview_questions(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
+
     # ---------------------------------------------------------
     # RESUME OWNERSHIP
     # ---------------------------------------------------------
