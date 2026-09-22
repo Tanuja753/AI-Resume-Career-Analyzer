@@ -83,9 +83,13 @@ def generate_pdf(
 
         return generated_resume
 
-    except Exception:
+    except Exception as exc:
 
         db.rollback()
+
+        print(
+            f"PDF GENERATION ERROR: {type(exc).__name__}: {exc}"
+        )
 
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
